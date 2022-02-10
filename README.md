@@ -1,108 +1,24 @@
-# В pom.xml добавлены поддержка junit-jupiter и подходящий ему maven-surefire-plugin
-
-```xml
-<dependencies>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <version>5.8.1</version>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.22.2</version>
-            </plugin>
-        </plugins>
-    </build>
-```
-
-# Код Java находящийся в этом репозитории
-
-```Java
-public class BonusService {
-    public long calculate(long amount, boolean registered) {
-        int percent = registered ? 3 : 1;
-        long bonus = amount * percent / 100 / 100;
-        long limit = 500;
-        if (bonus > limit) {
-            bonus = limit;
-        }
-        return bonus;
-    }
-}
-```
-```Java
-import static org.junit.jupiter.api.Assertions.*;
-
-class BonusServiceTest {
-
-    @org.junit.jupiter.api.Test
-    void shouldCalculateForRegisteredAndUnderLimit() {
-        BonusService service = new BonusService();
-
-        // подготавливаем данные:
-        long amount = 1000_60;
-        boolean registered = true;
-        long expected = 30;
-
-        // вызываем целевой метод:
-        long actual = service.calculate(amount, registered);
-
-        // производим проверку (сравниваем ожидаемый и фактический):
-        assertEquals(expected, actual);
-    }
-
-    @org.junit.jupiter.api.Test
-    void shouldCalculateForRegisteredAndOverLimit() {
-        BonusService service = new BonusService();
-
-        // подготавливаем данные:
-        long amount = 1_000_000_60;
-        boolean registered = true;
-        long expected = 500;
-
-        // вызываем целевой метод:
-        long actual = service.calculate(amount, registered);
-
-        // производим проверку (сравниваем ожидаемый и фактический):
-        assertEquals(expected, actual);
-    }
-
-    @org.junit.jupiter.api.Test
-    void shouldCalculateForUnregisteredAndUnderLimit() {
-        BonusService service = new BonusService();
-
-        // подготавливаем данные:
-        long amount = 1000_60;
-        boolean registered = false;
-        long expected = 10;
-
-        // вызываем целевой метод:
-        long actual = service.calculate(amount, registered);
-
-        // производим проверку (сравниваем ожидаемый и фактический):
-        assertEquals(expected, actual);
-    }
-
-    @org.junit.jupiter.api.Test
-    void shouldCalculateForUnregisteredAndOverLimit() {
-        BonusService service = new BonusService();
-
-        // подготавливаем данные:
-        long amount = 1_000_000_60;
-        boolean registered = false;
-        long expected = 500;
-
-        // вызываем целевой метод:
-        long actual = service.calculate(amount, registered);
-
-        // производим проверку (сравниваем ожидаемый и фактический):
-        assertEquals(expected, actual);
-    }
-}
-```
+# Система сборки Maven, управление зависимостями, автотесты на JUnit5 (Exercise_2.3.1)
+## Домашнее задание по курсу "Java для тестировщиков"
+## Тема: «2.3. Система сборки Maven, управление зависимостями, автотесты на JUnit5», задание №1: «Дописываем тесты»
+- Создан проект на базе Maven по инструкции из лекции;
+- Добавлены в проект JUnit Jupiter & Surefire Plugin;
+- Перенесен из лекции код существующего сервиса и авто-тестов;
+- Созданы недостающие авто-тесты.
+### Предварительные требования
+- На компьютере пользователя должна быть установлена:
+	- Intellij IDEA
+### Установка и запуск
+1. Склонировать проект на свой компьютер
+	- открыть терминал
+	- ввести команду 
+		```
+		git clone https://github.com/Lognestix/Exercise_2.3.1
+		```
+1. Открыть склонированный проект в Intellij IDEA
+1. Запустить авто-тесты:
+	- Нажать два раза CTRL;
+	- Ввести команду 
+		```
+		mvn clean test
+		```
